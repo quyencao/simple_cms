@@ -19,8 +19,15 @@
    </div>
    <div id="page">
      <h2>Manage Content</h2>
-     <?php echo $selected_subject_id ?>
-     <?php echo $selected_page_id ?>
+     <?php if(isset($selected_subject_id)) { ?>
+       <?php $current_subject = find_subject_by_id($selected_subject_id); ?>
+       Menu name: <?php echo $current_subject["menu_name"]; ?>
+     <?php } else if (isset($selected_page_id)) { ?>
+       <?php $current_page = find_page_by_id($selected_page_id); ?>
+       <?php echo $current_page["menu_name"]; ?>
+     <?php } else { ?>
+       <?php echo "Please select a subject or a page" ?>
+     <?php } ?>
    </div>
  </div>
 <?php include("../includes/layout/footer.php"); ?>
