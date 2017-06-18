@@ -5,12 +5,7 @@
    <div id="navigation">
      <ul class="subjects">
       <?php
-         $query  = "SELECT * ";
-         $query .= "FROM subjects ";
-         $query .= "WHERE visible = 1 ";
-         $query .= "ORDER BY position ASC";
-         $subjects_set = mysqli_query($connection, $query);
-         confirm_query($subjects_set);
+         $subjects_set = find_all_subjects();
       ?>
       <?php
         while($subject = mysqli_fetch_assoc($subjects_set)) {
@@ -18,13 +13,7 @@
         <li>
           <?php echo $subject["menu_name"]; ?>
           <?php
-             $query  = "SELECT * ";
-             $query .= "FROM pages ";
-             $query .= "WHERE visible = 1 AND ";
-             $query .= "subject_id = {$subject["id"]} ";
-             $query .= "ORDER BY position ASC";
-             $pages_set = mysqli_query($connection, $query);
-             confirm_query($pages_set);
+             $pages_set = find_pages_for_subject($subject["id"]);
           ?>
           <ul class="pages">
             <?php
@@ -33,6 +22,9 @@
               <li><?php echo $page["menu_name"]; ?></li>
             <?php
               }
+            ?>
+            <?php
+                  mysqli_free_result($pages_set);
             ?>
           </ul>
         </li>
